@@ -1,0 +1,20 @@
+== Ideas ==
+
+surface.py is a really good utilities to display types:
+
+GlWrapper: 
+
+isosurface method that takes a function and generates all the useful
+stuff to display the isosurface, seems winning
+
+TODO: need also to display directly volumetric data
+
+=== Distributing ===
+
+* proposing a global "lib" directory in avogadro
+* using a pyquante directory where to pack all the stuff and suggest to do so
+
+== Tasks ==
+
+TODO: Writing a NICE GUI for the pyquante extension
+TODO: Could be nice some docs on how o use thee GlWrapper
