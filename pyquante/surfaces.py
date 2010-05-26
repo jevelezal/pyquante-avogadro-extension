@@ -14,7 +14,9 @@
 
 '''
 import logging
-import Avogadro
+#import Avogadro
+from mock import Mock
+Avogadro=Mock()
 
 class GlViewWrapper(object):
     def __init__(self, glwidget):
@@ -73,10 +75,17 @@ class GlViewWrapper(object):
         self.glwidget.molecule.update()  
 
 
-def test():
-    from mock import Mock
-    from numpy import array
+def get_glview_mock():
     glview = Mock()
+    surfengine = Mock()
+    surfengine.name = "Surfaces"
+    glview.engines = [surfengine]
+    return glview
+    
+def test():
+
+    from numpy import array
+    glview = get_glview_mock()
     wrapper = GlViewWrapper(glview)
     
     # Test calls
@@ -91,5 +100,9 @@ def test():
     wrapper.create_cube(dim,max,min)
     
     # Create isosurface from volumetric data...
-    wrapper.isosurface()
-    
+    voldata = [0,1]
+    wrapper.isosurface(voldata, iso = 0.1)
+
+
+if __name__ == '__main__':
+    test()
