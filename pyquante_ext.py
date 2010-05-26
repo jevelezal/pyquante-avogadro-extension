@@ -38,6 +38,7 @@ class Extension(QObject):
         """
         self.contr = PyQuanteController(glwidget)
         return None
+
     def readSettings(self, settings):
         pass
         #self.foo = settings.value("foo", QVariant(42))

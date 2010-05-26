@@ -44,14 +44,15 @@ class PyQuanteController(QObject):
         self.gl = glwidget
         self.ui = PyQuanteDialog()
         basis_choices = PyQuante.Basis.Tools.basis_map.keys()
-        #print "Here" #ok
+        
         # Basis set choices from pyquante
         self.ui.basis_set_select.addItems(basis_choices)
         
         # Connect signals
-        #self.ui.run.clicked.connect(self.on_run_click)
+        
         QObject.connect(self.ui.run,SIGNAL("clicked()"),self, SLOT("on_run_click()"))
         self.ui.show()
+
     @pyqtSignature("")
     def on_run_click(self):
         # Fetching Molecule
@@ -71,6 +72,7 @@ class PyQuanteController(QObject):
         QObject.connect(self.timer, SIGNAL("timeout()"), self, SLOT("update()"))
         self.it.start()
         self.timer.start(20)
+
     @pyqtSignature("")
     def update(self):
         if self.it.queue.empty():
