@@ -84,7 +84,7 @@ class GlViewWrapper(object):
                            z_min:z_max:z_dim*1j]
         
         # Something like that, it has to produce a flattened list
-        data = func(grid)
+        data = func(*grid)
         cube.setData(data)
         
         # Generate mesh

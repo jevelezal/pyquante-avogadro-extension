@@ -4,14 +4,15 @@ import os
 AVOEXTPATH=os.path.join(os.environ["HOME"],".avogadro/extensionScripts")
 
 LIBFILES = ["pyquante/surfaces.py"]
-
+EXTS = ["surface_ext.py"]
 def devel():
     for file in LIBFILES:
-        # src dest
-        
+        # src dest        
         dest = os.path.join(AVOEXTPATH,"lib",os.path.basename(file))
         os.link(file,
                 dest)
+    for file in EXTS:
+        os.link(file, AVOEXTPATH)
 
 commands = {
     "devel" : devel

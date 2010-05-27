@@ -22,7 +22,7 @@ class Extension(QObject):
         - HF Energy
         """
         actions = []
-
+        
         action = QAction(self)
         action.setText("HF Energy")
         actions.append(action)
