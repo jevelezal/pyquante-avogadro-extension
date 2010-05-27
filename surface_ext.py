@@ -33,6 +33,7 @@ class Extension(QObject):
         # Displaying a sphere centered in the current molecule
         center = wrap.get_baricenter()
         def sphere(x,y,z):
-            return x**2 + y**2 + z**2 - center
+            x0,y0,z0 = center
+            return (x-x0)**2 + (y-y0)**2 + (z-z0)**2
         
         wrap.isosurface(sphere, 3)

@@ -20,7 +20,7 @@ from PyQt4.QtCore import QSettings
 import numpy
 from numpy import array
 from mock import Mock
-
+logging.basicConfig(level=logging.DEBUG)
 QSettings = Mock()
 Avogadro=Mock()
 
@@ -34,10 +34,12 @@ class GlViewWrapper(object):
         '''
         glwidget = self.glwidget
         for engine in glwidget.engines:
-            if engine.name == name:
+            if engine.name == "Srae":
                 surfaceEngine = engine  # This should work...
-            logging.debug("Name %s, Alias %s, PrimitiveTypes %s"%(
-                    engine.name, engine.alias, engine.primitiveTypes))
+            print engine.name, engine.alias, engine.primitiveTypes
+            if engine.primitiveTypes == "Srae":
+                surfaceEngine = engine
+        surfaceEngine = glwidget.engines[0]
         return surfaceEngine
 
     def get_baricenter(self):
@@ -80,12 +82,12 @@ class GlViewWrapper(object):
         
         # Creating a grid
         grid = numpy.ogrid[x_min:x_max:x_dim*1j,
-                           y_min:y_max:z_dim*1j,
+                           y_min:y_max:y_dim*1j,
                            z_min:z_max:z_dim*1j]
         
         # Something like that, it has to produce a flattened list
         data = func(*grid)
-        cube.setData(data)
+        cube.setData(list(data.flat))
         
         # Generate mesh
         mesh = self.generate_mesh(cube)
@@ -115,10 +117,17 @@ def get_glview_mock():
     surfengine = Mock()
     surfengine.name = "Surfaces"
     glview.engines = [surfengine]
+    glview.molecule = molecule_mock()
     return glview
-    
-def test():
 
+def molecule_mock():
+    mol = Mock()
+    mol.atoms = [Mock()] * 3
+    for i,atom in enumerate(mol.atoms):
+        atom.atomicNumber = i 
+        atom.pos = array([i,i,i])
+    return mol
+def test():
     from numpy import array
     glview = get_glview_mock()
     wrapper = GlViewWrapper(glview)
@@ -135,8 +144,9 @@ def test():
     wrapper.create_cube(dim,max,min)
     
     # Create isosurface from volumetric data...
-    voldata = [0,1]
-    wrapper.isosurface(voldata, iso = 0.1)
+    func = lambda x,y,z: x**2 + y**2 + z**2
+    
+    wrapper.isosurface(func, iso = 0.1)
     #print glview.method_calls
 
 if __name__ == '__main__':
